@@ -47,7 +47,12 @@ NeoBundle 'grep.vim'
 filetype plugin indent on
 
 "タブが対応する空白数
-set tabstop=3
+set tabstop=2
+set softtabstop=2
+set shiftwidth=2
+
+"タブを空白に変換
+set expandtab
 
 "backup,swapファイルを作らない
 set nobackup
