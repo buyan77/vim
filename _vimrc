@@ -3,22 +3,32 @@ filetype plugin indent off
 
 if has('vim_starting')
 	set runtimepath+=~/.vim/bundle/neobundle.vim
-	call neobundle#begin(expand('~/.vim/bundle'))
-	NeoBundleFetch 'Shougo/neobundle.vim'
-	call neobundle#end()
 endif
+
+call neobundle#begin(expand('~/.vim/bundle'))
+
+NeoBundleFetch 'Shougo/neobundle.vim'
 
 "入力補完機能
 NeoBundle 'Shougo/neocomplete.vim'
+NeoBundle 'marcus/rsense'
+NeoBundle 'supermomonga/neocomplete-rsense.vim'
+
+" 静的解析
+NeoBundle 'scrooloose/syntastic'
+
+" ドキュメント参照 ":Ref refe puts 辞書が見られる
+NeoBundle 'thinca/vim-ref'
+NeoBundle 'yuku-t/vim-ref-ri'
+
+" メソッド定義元へのジャンプ
+NeoBundle 'szw/vim-tags'
 
 "Ctrl+P:バッファ Ctrl+N:カレントディレクトリ Ctrl+Z:最近のファイル
 NeoBundle 'Shougo/unite.vim'
 
 "最近使ったファイル
 NeoBundle 'Shougo/neomru.vim'
-
-":Ref refe puts 辞書が見られる
-NeoBundle 'thinca/vim-ref'
 
 "true/false の確認
 NeoBundle 'thinca/vim-quickrun'
@@ -43,6 +53,12 @@ NeoBundle 'mattn/emmet-vim'
 
 "grep 楽々
 NeoBundle 'grep.vim'
+
+"Ruby
+NeoBundle 'vim-scripts/ruby-matchit', { "autoload" : { 
+  \ "filetypes" : [ "ruby", "eruby" ] } }
+
+call neobundle#end()
 
 filetype plugin indent on
 
@@ -164,6 +180,13 @@ endif
 
 
 """"""""""""""""""""""""""""""
+" Rsense 
+"""""""""""""""""""""""""""""""
+let g:rsenseHome = '/usr/local/lib/rsense-0.3'
+let g:rsenseUseOmniFunc = 1
+
+
+""""""""""""""""""""""""""""""
 " neocomplete 
 """""""""""""""""""""""""""""""
 "Note: This option must set it in .vimrc(_vimrc).  NOT IN .gvimrc(_gvimrc)!
@@ -250,13 +273,19 @@ endif
 " https://github.com/c9s/perlomni.vim
 let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
 
+" --------------------------------
+" rubocop
+" --------------------------------
+" syntastic_mode_mapをactiveにするとバッファ保存時にsyntasticが走る
+" active_filetypesに、保存時にsyntasticを走らせるファイルタイプを指定する
+let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes': ['ruby'] }
+let g:syntastic_ruby_checkers = ['rubocop']
+
 
 """"""""""""""""""""""""""""""
 " ruby
 """""""""""""""""""""""""""""""
 
-NeoBundle 'vim-scripts/ruby-matchit', { "autoload" : { 
-  \ "filetypes" : [ "ruby", "eruby" ] } }
  
 NeoBundleLazy 'marcus/rsense', {
       \ 'autoload': {
